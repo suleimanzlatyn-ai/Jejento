@@ -24,8 +24,10 @@ jobs:
           test -f "$ZIP"
           mkdir -p /tmp/sahlan-site
           unzip -o "$ZIP" -d /tmp/sahlan-site
-          test -f /tmp/sahlan-site/index.html
-          cp -a /tmp/sahlan-site/. .
+          INDEX_PATH="$(find /tmp/sahlan-site -type f -name index.html -print -quit)"
+          test -n "$INDEX_PATH"
+          SITE_ROOT="$(dirname "$INDEX_PATH")"
+          cp -a "$SITE_ROOT"/. .
           rm -rf /tmp/sahlan-site
 
       - name: Commit extracted site files
