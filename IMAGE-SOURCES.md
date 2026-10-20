@@ -1,0 +1,6 @@
+# Image sources and attribution notes
+
+- The interactive before/after comparison uses a cluttered living-room photo from Caracol Radio's article image CDN: https://caracol.com.co/2025/05/22/que-significa-tener-la-casa-desordenada-y-sucia-psicologos-explican-factores-que-podrian-afectar/ . The other comparison image and service/interior photography use Unsplash image URLs embedded in the HTML.
+- These are illustrative external photographs. They are not SAHLAN's own customer jobs, and the paired comparison images are not the same room photographed before and after. Do not present them as documented client results. Replace with original, permissioned photos from one actual room/job for a truthful before-and-after demonstration.
+- External image availability, licensing, and hotlinking terms should be confirmed before production launch. For a production site, download licensed assets or use the provider's permitted embed/CDN approach.
+- The Instagram profile link retained from project files is https://www.instagram.com/sahlanpremiumcleaners/ . Search links are provided for TikTok and Facebook because no clearly verifiable official SAHLAN profile was found during the search; replace them with exact official profile URLs when confirmed.
