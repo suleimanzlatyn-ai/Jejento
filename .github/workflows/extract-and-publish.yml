@@ -23,12 +23,12 @@ jobs:
           ZIP="sahlan-premium-cleaners-logo-quote-v8.zip"
           test -f "$ZIP"
           mkdir -p /tmp/sahlan-site
-          unzip -o "$ZIP" -d /tmp/sahlan-site
-          INDEX_PATH="$(find /tmp/sahlan-site -type f -name index.html -print -quit)"
-          test -n "$INDEX_PATH"
-          SITE_ROOT="$(dirname "$INDEX_PATH")"
-          cp -a "$SITE_ROOT"/. .
+          unzip -oq "$ZIP" -d /tmp/sahlan-site
+          SITE_DIR="/tmp/sahlan-site/sahlan-premium-cleaners"
+          test -f "$SITE_DIR/index.html"
+          cp -a "$SITE_DIR"/. .
           rm -rf /tmp/sahlan-site
+          rm -f "$ZIP"
 
       - name: Commit extracted site files
         run: |
