@@ -3,9 +3,6 @@ name: Publish SAHLAN static website
 on:
   push:
     branches: [main]
-    paths:
-      - 'sahlan-premium-cleaners-logo-quote-v8.zip'
-      - '.github/workflows/extract-and-publish.yml'
   workflow_dispatch:
 
 permissions:
