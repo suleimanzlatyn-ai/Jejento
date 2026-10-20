@@ -39,5 +39,6 @@ jobs:
             echo "No website file changes to commit."
           else
             git commit -m "Publish SAHLAN website files from uploaded ZIP"
+            git pull --rebase origin main
             git push
           fi
