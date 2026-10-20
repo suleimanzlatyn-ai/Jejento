@@ -21,7 +21,10 @@ jobs:
         run: |
           set -euo pipefail
           ZIP="sahlan-premium-cleaners-logo-quote-v8.zip"
-          test -f "$ZIP"
+          if [ ! -f "$ZIP" ]; then
+            echo "ZIP already extracted; website files are present."
+            exit 0
+          fi
           mkdir -p /tmp/sahlan-site
           unzip -oq "$ZIP" -d /tmp/sahlan-site
           SITE_DIR="/tmp/sahlan-site/sahlan-premium-cleaners"
