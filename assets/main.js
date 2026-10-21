@@ -136,4 +136,62 @@
       window.location.href = url;
     });
   }
+
+  // Premium motion: subtle scroll reveals, reading progress, and restrained page transitions.
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const progress = document.createElement('div');
+  progress.className = 'site-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(progress);
+  const transition = document.createElement('div');
+  transition.className = 'site-transition';
+  transition.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(transition);
+  const updateProgress = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    const revealSelector = '.section,.content-section,.page-hero,.cta-band,.home-booking,.statement,.service-card,.service-tile,.feature-card,.gallery-item,.process-card,.value-card,.testimonial,.booking-card,.content-card,.faq details,.footer-grid,.split-section';
+    const revealItems = Array.from(document.querySelectorAll(revealSelector));
+    revealItems.forEach((el, index) => {
+      if (el.closest('.hero')) return;
+      el.classList.add('reveal');
+      if (el.matches('.split-section')) el.classList.add(index % 2 ? 'reveal-right' : 'reveal-left');
+      const siblingIndex = el.parentElement ? Array.from(el.parentElement.children).filter(s => s.matches(revealSelector)).indexOf(el) : 0;
+      el.style.setProperty('--reveal-delay', Math.max(0, siblingIndex) % 4 * 75 + 'ms');
+    });
+    document.documentElement.classList.add('motion-ready');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
+    revealItems.forEach(el => { if (el.classList.contains('reveal')) observer.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+  }
+
+  if (!reducedMotion) {
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (!href.endsWith('.html') || href.startsWith('http') || link.target === '_blank' || link.hasAttribute('download')) return;
+      link.addEventListener('click', event => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+        const targetUrl = new URL(link.href, window.location.href);
+        if (targetUrl.origin !== window.location.origin || targetUrl.pathname === window.location.pathname) return;
+        event.preventDefault();
+        transition.classList.add('is-leaving');
+        window.setTimeout(() => { window.location.href = targetUrl.href; }, 180);
+      });
+    });
+  }
+
 })();
