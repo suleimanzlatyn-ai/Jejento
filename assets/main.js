@@ -194,4 +194,57 @@
     });
   }
 
+
+  // Personalised quote concierge: choices are collected locally and sent only when the visitor taps the WhatsApp button.
+  const concierge = document.querySelector('#clean-concierge');
+  if (concierge) {
+    const choices = { space: 'Home / apartment', service: 'Deep cleaning' };
+    const summary = concierge.querySelector('[data-concierge-summary]');
+    const extrasSummary = concierge.querySelector('[data-concierge-extras]');
+    const refreshConcierge = () => {
+      const extras = Array.from(concierge.querySelectorAll('.concierge-extras input:checked')).map(input => input.value);
+      summary.textContent = choices.space + ' · ' + choices.service;
+      extrasSummary.textContent = extras.length ? extras.join(' · ') : 'No extra priorities selected';
+    };
+    concierge.querySelectorAll('[data-choice-group]').forEach(group => {
+      group.querySelectorAll('button[data-value]').forEach(button => {
+        button.addEventListener('click', () => {
+          group.querySelectorAll('button[data-value]').forEach(option => {
+            const selected = option === button;
+            option.classList.toggle('is-selected', selected);
+            option.setAttribute('aria-pressed', String(selected));
+          });
+          choices[group.dataset.choiceGroup] = button.dataset.value;
+          refreshConcierge();
+        });
+      });
+    });
+    concierge.querySelectorAll('.concierge-extras input').forEach(input => input.addEventListener('change', refreshConcierge));
+    concierge.querySelector('[data-concierge-submit]')?.addEventListener('click', () => {
+      const extras = Array.from(concierge.querySelectorAll('.concierge-extras input:checked')).map(input => input.value);
+      const message = [
+        'Hello SAHLAN Premium Cleaners, I would like a tailored quote.',
+        '',
+        'Space: ' + choices.space,
+        'Service requested: ' + choices.service,
+        'Additional priorities: ' + (extras.length ? extras.join(', ') : 'None selected'),
+        '',
+        'Please let me know what details you need, availability and pricing. I understand this is a request, not a confirmed booking.'
+      ].join('\n');
+      window.location.href = 'https://wa.me/254711224477?text=' + encodeURIComponent(message);
+    });
+    refreshConcierge();
+  }
+
+  // Gentle pointer glow on larger pointer devices only; never overrides touch interaction.
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.hero,.concierge-section,.cta-band').forEach(surface => {
+      surface.addEventListener('pointermove', event => {
+        const rect = surface.getBoundingClientRect();
+        surface.style.setProperty('--pointer-x', (event.clientX - rect.left) + 'px');
+        surface.style.setProperty('--pointer-y', (event.clientY - rect.top) + 'px');
+      }, { passive: true });
+    });
+  }
+
 })();
