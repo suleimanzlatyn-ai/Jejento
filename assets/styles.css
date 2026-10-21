@@ -309,3 +309,8 @@ img{transition:filter .35s ease}
 @media(max-width:850px){.concierge-shell{grid-template-columns:1fr;gap:2rem}.concierge-intro{position:static;padding-top:0}.concierge-intro h2{font-size:clamp(2.8rem,10vw,4.6rem)}.concierge-intro>p{max-width:560px}.concierge-assurance{margin-top:1.5rem}}
 @media(max-width:500px){.concierge-section{padding:4rem 16px}.concierge-panel{padding:17px 13px;border-radius:15px}.concierge-options{gap:6px}.concierge-option{padding:11px 8px;gap:8px}.concierge-option strong{font-size:.72rem}.concierge-option small{font-size:.62rem}.concierge-option-icon{width:30px;height:30px}.concierge-chips{gap:6px}.concierge-chip{padding:8px 10px;font-size:.72rem}.concierge-extras{gap:11px 8px}.concierge-extras label{font-size:.71rem}.concierge-topline{font-size:.59rem}}
 @media(prefers-reduced-motion:reduce){.concierge-option,.concierge-chip,.concierge-submit{transition:none}}
+
+
+/* Pointer-responsive ambient lighting — restrained and desktop-only */
+.hero:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;background:radial-gradient(380px circle at var(--pointer-x,72%) var(--pointer-y,35%),rgba(224,190,105,.18),transparent 72%)}
+.concierge-section:after{background:radial-gradient(360px circle at var(--pointer-x,80%) var(--pointer-y,20%),rgba(201,163,74,.13),transparent 70%),radial-gradient(ellipse at 5% 90%,rgba(25,111,76,.4),transparent 38%),linear-gradient(120deg,transparent 48%,rgba(255,255,255,.018) 49%,transparent 50%)}
