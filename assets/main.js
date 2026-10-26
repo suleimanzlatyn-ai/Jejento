@@ -14,6 +14,12 @@
   }
   window.addEventListener('pageshow', () => {
     if (toggle && nav) { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Open navigation'); }
+    // Restore the page after browser Back/Forward restores it from the back-forward cache.
+    // Otherwise the outgoing transition overlay can remain over the page until refresh.
+    document.querySelector('.site-transition')?.classList.remove('is-leaving');
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible', 'is-visible'));
+    document.documentElement.classList.remove('motion-ready');
+    requestAnimationFrame(() => document.documentElement.classList.add('motion-ready'));
   });
   const header = document.querySelector('.site-header');
   const scrollHeader = () => header?.classList.toggle('scrolled', window.scrollY > 12);
